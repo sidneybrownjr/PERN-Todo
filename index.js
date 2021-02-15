@@ -1,11 +1,17 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 const pool = require('./db');
 
 //middleware
 app.use(cors());
 app.use(express.json()); //req.body
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 //ROUTES//
 
@@ -78,6 +84,6 @@ app.delete('/todos/:id', async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log('server has started on port 5000');
+app.listen(3000, () => {
+  console.log('server has started on port 3000');
 });
